@@ -2,7 +2,7 @@
 Gemify is a CLI (Command Line Interface) application that allows you to easily convert your Steam items to Gems.
 
 ## Install
-Gemify is built on top of [Node.JS] (https://nodejs.org/), make sure to install it before installing Gemify.
+Gemify is built on top of [Node.JS](https://nodejs.org/), make sure to install it before installing Gemify.
 
 ### Windows
 To install Gemify on Windows you need to run the Install executable. Once installation has completed this window will automatically close. You can now run the Gemify executable to start using Gemify.
