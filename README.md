@@ -10,7 +10,7 @@ To install Gemify on Windows you need to run the Install executable. Once instal
 ### Other Operating Systems
 To install Gemify on operating systems other than Windows you will need to use the Terminal. Open your terminal and navigate to the folder in which you put the Gemify files. You can then run the `npm install` command to install Gemify. To use Gemify, use the command `node index`
 
-##### [Download Gemify](https://github.com/timvandam/gemify/releases)
+#### [Download Gemify](https://github.com/timvandam/gemify/releases)
 
 #### Contact
 If you need any help, feel free to contact me by [email](mailto:timvandamcs@gmail.com) or on [Steam](https://steamcommunity.com/profiles/76561198340449674)
