@@ -10,7 +10,7 @@ const { askSteamCredentials, askSteamAuthCode, askSteamCaptcha, askRestrictions,
 const { logon } = require('./lib/logon');
 const { getInventory, gemify } = require('./lib/inventory');
 
-
+const includes = l => b => t => l.includes(t) === b;
 const error = msg => console.log(chalk.red(msg));
 const good = msg => console.log(chalk.green(msg));
 const info = msg => console.log(chalk.cyan(msg));
@@ -19,8 +19,6 @@ const title = () => {
   clear();
   good(figlet.textSync('Gemify'));
 };
-
-const includes = l => b => t => l.includes(t) === b;
 
 const run = async(credentials, auth, captcha) => {
   if (!credentials) credentials = await askSteamCredentials();
@@ -75,9 +73,6 @@ const run = async(credentials, auth, captcha) => {
 
   const types = (await askWhichItems(choices)).items.map(type => type.split(' ')[0]);
 
-  // Remove items that aren't going to be gemified
-  Object.keys(inventory).filter(includes(types)(true)).forEach(type => delete inventory.type);
-
   let totalGems = 0;
   let gemsGained = 0;
   let failedItems = 0;
@@ -88,6 +83,7 @@ const run = async(credentials, auth, captcha) => {
     title();
     const spinner = new Spinner(`Gemifying ${type}`);
     spinner.setSpinnerDelay(75).start();
+    spinner.gemsGained = 0;
     while (inventory[type].length) {
       const item = inventory[type].splice(0, 1)[0];
       const gem = await gemify(community, item);
@@ -104,6 +100,7 @@ const run = async(credentials, auth, captcha) => {
       const { received, total } = gem;
       gemsGained += received;
       totalGems = total;
+      spinner.text = `Gemifying ${type} (+${spinner.gemsGained += received})`;
     }
     spinner.stop();
   }
