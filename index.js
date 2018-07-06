@@ -33,7 +33,7 @@ const run = async(credentials, auth, captcha) => {
       run(credentials, { [det === 'SteamGuard' ? 'steamguard' : 'twoFactorCode']: (await askSteamAuthCode()).code }, captcha);
 
     if (res === 'CAPTCHA') {
-      opn(det);
+      await opn(det);
       run(credentials, auth, await askSteamCaptcha());
     }
 
