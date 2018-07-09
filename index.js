@@ -6,8 +6,8 @@ const figlet = require('figlet');
 const opn = require('opn');
 const Spinner = require('cli-spinner').Spinner;
 
-const { askSteamCredentials, askSteamAuthCode, askSteamCaptcha, askRestrictions, askWhichItems } = require('./lib/inquirer');
-const { logon } = require('./lib/logon');
+const { askSteamCredentials, askSteamAuthCode, askSteamCaptcha, askFamilyView, askRestrictions, askWhichItems } = require('./lib/inquirer');
+const { logon, checkFamilyView, parentalUnlock } = require('./lib/logon');
 const { getInventory, gemify } = require('./lib/inventory');
 
 const includes = l => b => t => l.includes(t) === b;
@@ -52,6 +52,29 @@ const run = async(credentials, auth, captcha) => {
   title();
 
   const { manager, community } = login;
+
+  const familyView = await checkFamilyView(community);
+  if (Array.isArray(familyView)) {
+    const [error] = familyView;
+    if (error === 'ERROR')
+      process.exit(error('Something went wrong while checking family view status.'));
+
+    if (error === 'NOTLOGGEDIN')
+      process.exit(error('Log in failed, please try again.'));
+  }
+
+  let pin;
+  if (familyView)
+    pin = (await askFamilyView()).pin;
+
+  const unlocked = await parentalUnlock(community, pin);
+
+  if (Array.isArray(unlocked)) {
+    const [error] = unlocked;
+    if (error === 'ERROR')
+      process.exit(error('Could not unlock family view; please make sure to provide the right PIN'));
+  }
+
   const { tradableOnly, marketableOnly } = await askRestrictions();
 
   // Bring up spinner and load inventory
