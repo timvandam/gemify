@@ -55,11 +55,11 @@ const run = async(credentials, auth, captcha) => {
 
   const familyView = await checkFamilyView(community);
   if (Array.isArray(familyView)) {
-    const [error] = familyView;
-    if (error === 'ERROR')
+    const [familyError] = familyView;
+    if (familyError === 'ERROR')
       process.exit(error('Something went wrong while checking family view status.'));
 
-    if (error === 'NOTLOGGEDIN')
+    if (familyError === 'NOTLOGGEDIN')
       process.exit(error('Log in failed, please try again.'));
   }
 
@@ -70,8 +70,8 @@ const run = async(credentials, auth, captcha) => {
   const unlocked = await parentalUnlock(community, pin);
 
   if (Array.isArray(unlocked)) {
-    const [error] = unlocked;
-    if (error === 'ERROR')
+    const [parentalError] = unlocked;
+    if (parentalError === 'ERROR')
       process.exit(error('Could not unlock family view; please make sure to provide the right PIN'));
   }
 
