@@ -1,6 +1,6 @@
 {
   "name": "gemify",
-  "version": "1.0.3",
+  "version": "1.0.1",
   "description": "Turn your steam items into gems",
   "main": "index.js",
   "author": "Tim van Dam",
