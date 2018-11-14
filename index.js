@@ -63,16 +63,16 @@ const run = async(credentials, auth, captcha) => {
       process.exit(error('Log in failed, please try again.'));
   }
 
-  let pin;
-  if (familyView)
-    pin = (await askFamilyView()).pin;
+  if (familyView) {
+    let pin = (await askFamilyView()).pin;
 
-  const unlocked = await parentalUnlock(community, pin);
+    const unlocked = await parentalUnlock(community, pin);
 
-  if (Array.isArray(unlocked)) {
-    const [parentalError] = unlocked;
-    if (parentalError === 'ERROR')
-      process.exit(error('Could not unlock family view; please make sure to provide the right PIN'));
+    if (Array.isArray(unlocked)) {
+      const [parentalError] = unlocked;
+      if (parentalError === 'ERROR')
+        process.exit(error('Could not unlock family view; please make sure to provide the right PIN'));
+    }
   }
 
   const { tradableOnly, marketableOnly } = await askRestrictions();
